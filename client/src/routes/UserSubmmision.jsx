@@ -27,7 +27,7 @@ export default function UserSubmmision () {
         console.log(formData.get("SocialMediaHandel"));
 
           try {
-            const response = await fetch("http://localhost:3000/usersubmission", {
+            const response = await fetch("https://handle-hub.vercel.app/api/usersubmission", {
               method: "POST",
               body: formData,
               credentials:"include"

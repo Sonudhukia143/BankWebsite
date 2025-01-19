@@ -9,7 +9,7 @@ const Submissions = () => {
 
     const fetchSubmissions = async () => {
         try {
-            const response = await fetch("http://localhost:3000/submissions", {
+            const response = await fetch("https://handle-hub.vercel.app/api/submissions", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ export default function Login() {
     const loginUser = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('http://localhost:3000/login', {
+        const response = await fetch('https://handle-hub.vercel.app/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

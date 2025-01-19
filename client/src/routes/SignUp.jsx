@@ -11,7 +11,7 @@ export default function SignUp() {
     const createUser = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('http://localhost:3000/signup', {
+        const response = await fetch('https://handle-hub.vercel.app/api/signin', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
