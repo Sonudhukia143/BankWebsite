@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 app.use(mongoSanitize());
 app.use(cookieParser());
 const corsOptions = {
-    origin: 'https://handlehub.netlify.app/login',
+    origin: 'https://handlehub.netlify.app',
     optionsSuccessStatus: 200, 
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
