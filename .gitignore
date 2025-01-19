@@ -34,3 +34,4 @@ dist/
 /backend/dist/
 /backend/logs/
 
+.vercel

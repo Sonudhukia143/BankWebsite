@@ -24,7 +24,9 @@ const connectDb = async () => {
     }
 
     try {
-        await mongoose.connect(process.env.MONGO_ATLAS_URL);
+        await mongoose.connect(process.env.MONGO_ATLAS_URL,{
+            ssl:true
+        });
         console.log("Connected to the database.");
     } catch (error) {
         console.log("Error in establishing connection with the database: " + error);
@@ -72,7 +74,7 @@ app.use('/api/logout' , logout);
 app.use('/api/signin' , signUpRouter);
 app.use('/api/submissions' , userSubmission);
 app.use('/api/usersubmission' , getUserSubmissions);
-app.use('api/test' , (req,res) => {
+app.use('/api/test' , (req,res) => {
     return res.send("the web service is working");
 });
 
