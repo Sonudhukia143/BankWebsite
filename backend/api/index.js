@@ -72,9 +72,12 @@ app.use('/api/logout' , logout);
 app.use('/api/signin' , signUpRouter);
 app.use('/api/submissions' , userSubmission);
 app.use('/api/usersubmission' , getUserSubmissions);
+app.use('api/test' , (req,res) => {
+    return res.send("the web service is working");
+});
 
 app.use('*', (req, res) => {
-    res.send("could not find the page");
+    return res.send("could not find the page");
 })
 
 //  app.listen(Port, () => {
