@@ -19,12 +19,7 @@ if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
 
-await mongoose.connect(process.env.MONGO_ATLAS_URL , {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    reconnectTries: 30,
-    reconnectInterval: 1000, 
-  })
+await mongoose.connect(process.env.MONGO_ATLAS_URL)
     .then(() => {
         console.log("Connected to the database.");
     })
