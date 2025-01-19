@@ -1,8 +1,11 @@
 import { SocialMediaHandeler } from "../models/socialMediaHandle.js";
+import { User } from "../models/userModel.js";
 
 const getUserSubmissions = async (req, res) => {
     try {
-        const authorId = req.session.user?.id;
+        const user = localStorage.getItem('user');
+
+        const authorId = User.find({ gmail: user.gmail})._id;
         if (!authorId) {
             return res.status(401).json({ message: 'Unauthorized: You need to be logged in to view submissions.' });
         }

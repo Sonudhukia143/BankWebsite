@@ -1,13 +1,14 @@
 import { SocialMediaHandeler ,forValidation } from "../models/socialMediaHandle.js";
+import { User } from "../models/userModel.js";
 
 const userSubmission = async (req,res) => {
     try{
-        const author = req.session.user;
+        const user = localStorage.getItem('user');
         if (!author) {
             return res.status(401).send("Unauthorized: You need to be logged in to create a post.");
         }
 
-        console.log(author);
+        const author = User.find({gmail:user.gmail});
 
         const {username , SocialMediaHandel } = req.body;
         const images = req.files.map(file => ({
@@ -19,7 +20,7 @@ const userSubmission = async (req,res) => {
             username,
             images, 
             SocialMediaHandel, 
-            author:author.id
+            author:author._id
         });
 
         const { error } = forValidation({
