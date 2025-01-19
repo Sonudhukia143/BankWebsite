@@ -43,7 +43,7 @@ export default function UserSubmmision () {
             }
           } catch (err) {
             console.error("Network error:", err);
-            setMessage("netowrk erro" + err);
+            setMessage("netowrk error" + err);
           }
 }
 

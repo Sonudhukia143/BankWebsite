@@ -4,11 +4,11 @@ import { User } from "../models/userModel.js";
 const userSubmission = async (req,res) => {
     try{
         const user = localStorage.getItem('user');
+
+        const author = User.find({gmail:user.gmail});
         if (!author) {
             return res.status(401).send("Unauthorized: You need to be logged in to create a post.");
         }
-
-        const author = User.find({gmail:user.gmail});
 
         const {username , SocialMediaHandel } = req.body;
         const images = req.files.map(file => ({

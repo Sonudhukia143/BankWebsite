@@ -22,11 +22,12 @@ export default function SignUp() {
 
         const data = await response.json();
         setStatus(data.message);
-        const userData = { gmail , password};
-        login(userData);
 
         if (response.status === 200) {
             window.location.href = '/';
+
+            const userData = { gmail , password};
+            login(userData);
         }
     }
 
