@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== "production") {
 import getUserSubmissions from '../routes/getUserSubmission.js';
 import logInRouter from '../routes/logInRoute.js';
 import logout from '../routes/logout.js';
-import signUpRouter from '../routes/signInRoute';
+import signUpRouter from '../routes/signInRoute.js';
 import userSubmission from '../routes/userSubmissionRoute.js';
 
 const connectDb = async () => {
@@ -67,11 +67,11 @@ const sessionConfig = expressSession({
 });
 app.use(sessionConfig);
 
-app.use('/api' , logInRouter);
-app.use('/api' , logout);
-app.use('/api' , signUpRouter);
-app.use('/api' , userSubmission);
-app.use('/api' , getUserSubmissions);
+app.use('/api/login' , logInRouter);
+app.use('/api/logout' , logout);
+app.use('/api/signin' , signUpRouter);
+app.use('/api/submissions' , userSubmission);
+app.use('/api/usersubmission' , getUserSubmissions);
 
 app.use('*', (req, res) => {
     res.send("could not find the page");
