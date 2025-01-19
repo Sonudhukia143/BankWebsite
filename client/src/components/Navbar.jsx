@@ -21,10 +21,11 @@ export default function navbar() {
                 });
     
                 const data = await response.json();
+
+                window.location.href = '/';
     
                 if (response.ok) {
                     logout();
-
                     window.location.href = '/';
     
                 } else {

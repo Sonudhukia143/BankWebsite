@@ -1,10 +1,10 @@
 import { Route, createBrowserRouter, RouterProvider, createRoutesFromElements } from 'react-router-dom';
 import Layout from '../src/components/Layout';
-import UndefinedPath from '../src/utils/UndefinedPath';
-import ErrorTemplate from '../src/utils/ErrorTemplate';
-import SignUp from './routes/SignUp';
-import Login from './routes/Login';
-import Homepage from './routes/Homepage';
+import UndefinedPath from '../src/utils/UndefinedPath.jsx';
+import ErrorTemplate from '../src/utils/ErrorTemplate.jsx';
+import SignUp from './routes/SignUp.jsx';
+import Login from './routes/Login.jsx';
+import Homepage from './routes/Homepage.jsx';
 import UserSubmmision from './routes/UserSubmmision.jsx';
 import { AuthProvider } from '../src/context/AuthProvider.jsx';
 import Submissions from './routes/Submission.jsx';

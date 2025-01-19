@@ -9,7 +9,7 @@ const Submissions = () => {
 
     const fetchSubmissions = async () => {
         try {
-            const response = await fetch("https://handle-hub.vercel.app/api/submissions", {
+            const response = await fetch("https://handle-hub.vercel.app/api/usersubmission", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
