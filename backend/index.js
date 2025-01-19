@@ -19,7 +19,12 @@ if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
 
-await mongoose.connect(process.env.MONGO_ATLAS_URL)
+await mongoose.connect(process.env.MONGO_ATLAS_URL , {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    reconnectTries: 30,
+    reconnectInterval: 1000, 
+  })
     .then(() => {
         console.log("Connected to the database.");
     })
@@ -28,7 +33,7 @@ await mongoose.connect(process.env.MONGO_ATLAS_URL)
     });
 
 const app = express();
-const Port = 3000;
+//const Port = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -73,6 +78,8 @@ app.use('*', (req, res) => {
     res.send("could not find the page");
 })
 
-app.listen(Port, () => {
-    console.log("Server running on " + Port);
-});
+// app.listen(Port, () => {
+//     console.log("Server running on " + Port);
+// });
+
+export default app;
