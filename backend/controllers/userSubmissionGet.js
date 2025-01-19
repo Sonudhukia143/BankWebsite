@@ -2,7 +2,7 @@ import { SocialMediaHandeler } from "../models/socialMediaHandle.js";
 
 const getUserSubmissions = async (req, res) => {
     try {
-        const authorId = req.session.user?.id;
+        const authorId = req.session.user.id;
         if (!authorId) {
             return res.status(401).json({ message: 'Unauthorized: You need to be logged in to view submissions.' });
         }
