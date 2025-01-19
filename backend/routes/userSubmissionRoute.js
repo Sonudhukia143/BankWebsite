@@ -5,6 +5,6 @@ import { upload } from '../cloudinary/cloudinaryConfig.js';
 
 const router = express.Router();
 
-router.post('/usersubmission' , checkAuth ,upload.array('images',10) ,userSubmission);
+router.post('/' , checkAuth ,upload.array('images',10) ,userSubmission);
 
 export default router;

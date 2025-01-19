@@ -3,6 +3,6 @@ import signupuser from '../controllers/signUpController.js';
 
 const router = Router();
 
-router.post('/signup',signupuser);
+router.post('/',signupuser);
 
 export default router;

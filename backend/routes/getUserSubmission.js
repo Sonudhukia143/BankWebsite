@@ -4,6 +4,6 @@ import getUserSubmissions from '../controllers/userSubmissionGet.js';
 
 const router = express.Router();
 
-router.get('/submissions' ,checkAuth, getUserSubmissions);
+router.get('/' ,checkAuth, getUserSubmissions);
 
 export default router;
