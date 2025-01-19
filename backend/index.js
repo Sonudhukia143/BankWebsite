@@ -8,24 +8,22 @@ import MongoStore from 'connect-mongo';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-//routers
-import signUpRouter from './routes/signInRoute.js';
-import logInRouter from './routes/logInRoute.js';
-import logout from './routes/logout.js';
-import userSubmission from './routes/userSubmissionRoute.js';
-import getUserSubmissions from './routes/getUserSubmission.js';
-
 if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
 
-await mongoose.connect(process.env.MONGO_ATLAS_URL)
-    .then(() => {
+const connectDb = async () => {
+    if (mongoose.connection.readyState >= 1) {
+        return;
+    }
+
+    try {
+        await mongoose.connect(process.env.MONGO_ATLAS_URL);
         console.log("Connected to the database.");
-    })
-    .catch((err) => {
-        console.log("Error in establishing connection with the database." + err)
-    });
+    } catch (error) {
+        console.log("Error in establishing connection with the database: " + error);
+    }
+};
 
 const app = express();
 //const Port = 3000;
@@ -63,18 +61,15 @@ const sessionConfig = expressSession({
 });
 app.use(sessionConfig);
 
-app.use('/', signUpRouter);
-app.use('/', logInRouter);
-app.use('/', logout);
-app.use('/', userSubmission);
-app.use('/', getUserSubmissions);
-
 app.use('*', (req, res) => {
     res.send("could not find the page");
 })
 
-// app.listen(Port, () => {
-//     console.log("Server running on " + Port);
-// });
+//  app.listen(Port, () => {
+//      console.log("Server running on " + Port);
+//  });
 
-export default app;
+export default async (req, res) => {
+    await connectDb(); 
+    return app(req, res); 
+};
