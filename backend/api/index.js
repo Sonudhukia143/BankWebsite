@@ -58,11 +58,12 @@ const store = MongoStore.create({
 
 const sessionConfig = expressSession({
     store: store,
-    secret: process.env.SESSION_SECRET,
+    secret: true,
     cookie: {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24,
-        secure: true,  
+        secure: true, 
+        sameSite: 'none' 
     },
     resave: false,
     saveUninitialized: true

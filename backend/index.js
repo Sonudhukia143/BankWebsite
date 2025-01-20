@@ -56,7 +56,8 @@ const sessionConfig = expressSession({
     cookie: {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24,
-        secure: process.env.NODE_ENV === 'production',  
+        secure: process.env.NODE_ENV === 'production', 
+        sameSite:'none' 
     },
     resave: false,
     saveUninitialized: true
