@@ -43,7 +43,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-const store = MongoStore.create({
+const store = new MongoStore.create({
     mongoUrl: process.env.MONGO_ATLAS_URL,
     ttl: 24 * 60 * 60,
     touchAfter: 24 * 60 * 60
