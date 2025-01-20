@@ -60,7 +60,8 @@ const sessionConfig = expressSession({
         sameSite:'none' 
     },
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    domain: '.handlehub.netlify.app',
 });
 app.use(sessionConfig);
 

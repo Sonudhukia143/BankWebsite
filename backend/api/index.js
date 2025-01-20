@@ -63,7 +63,8 @@ const sessionConfig = expressSession({
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24,
         secure: true, 
-        sameSite: 'none' 
+        sameSite: 'none',
+        domain: '.handlehub.netlify.app',
     },
     resave: false,
     saveUninitialized: true
