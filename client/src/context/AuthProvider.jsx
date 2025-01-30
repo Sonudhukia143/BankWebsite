@@ -1,36 +1,45 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import { createContext,useContext,useReducer } from "react";
+
+const LOGIN = "LOGIN";
+const SIGNIN = "SIGNIN";
+const LOGOUT = "LOGOUT";
+const initialState = {
+  isLoggedIn: false,
+  user: null,
+}
+
+const authReducer = (state, action) => {
+  switch (action.type) {
+    case LOGIN:
+      return { ...state, isLoggedIn: true, token: action.payload };
+    case LOGOUT:
+      return { ...state, isLoggedIn: false, token: null };
+    case SIGNIN:
+      return { ...state, isLoggedIn: true, token: action.payload };
+    default:
+      return state;
+  }
+};
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const storedState = localStorage.getItem('isLoggedIn');
-    return storedState === 'true';
-  });
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
 
-  const login = (userData) => {
-    setUser(userData);
-    setIsLoggedIn(true);
-    localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('isLoggedIn', 'true');
-  };
+  if (!context) {
+    throw new Error("useAuthContext must be used within an AuthProvider");
+  }
+  
+  return context;
+}
 
-  const logout = () => {
-    setUser(null);
-    setIsLoggedIn(false);
-    localStorage.removeItem('user');
-    localStorage.removeItem('isLoggedIn');
-  };
+export const AuthProvider = ({children }) => {
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider value={{ state , dispatch }} >
       {children}
-    </AuthContext.Provider>
-  );
-};
+    </ AuthContext.Provider>
+  )
+}
 
-export const useAuth = () => useContext(AuthContext);

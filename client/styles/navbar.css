@@ -1,53 +1,34 @@
+#navbar{
+    color: aliceblue;
+    text-decoration: none;
 
-
-.navDiv {
-    background-color: rgb(32, 30, 30);
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 5vh;
 }
 
-.navIcon {
-    list-style: none;
+#navbar-nav{
     display: flex;
-    width: 30%;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-items: center;
 }
 
-.navLog{
+#profileButton{
+    background-color: transparent;
+    color: aliceblue;
+    margin: 0%;
+    padding: 0%;
+    border: none;
+}
+
+.offcanvas{
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    background-color: blue;
+    width: 40%;
+    height: 100vh;
+    z-index: 1050;
+    padding: 1em;
     display: block;
 }
 
-.navIconIcon{
-    display: flex;
-    width: 50%;
-}
-
-.Link {
-    text-decoration: none;
-    color: whitesmoke;
-    font-size: 4vh;
-}
-
-
-
-
-
-
-
-
-
-.navLogo {
-    line-height: 0%;
-    font-size: 5vh;
-    color: black;
-    padding: 0%;
-    margin: 0%;
-    display: inline-block;
-}
-
-.navLogo a {
-    text-decoration: none;
+#hide{
+    display: none;
 }

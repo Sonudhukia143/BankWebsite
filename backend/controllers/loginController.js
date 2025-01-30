@@ -1,32 +1,36 @@
 import bcrypt from 'bcrypt';
 import {User} from '../models/userModel.js';
+import generateToken from '../utils/webtoken.js';
 
 const loginUser = async (req, res) => {
     const { gmail, password } = req.body;
+    if(!gmail || !password) return res.status(404).json({message:'Input feilds cannot be empty'});
 
     try {
         const user = await User.findOne({ gmail });
         if (!user) {
-            return res.status(400).send({ message: 'User not found' });
+            return res.status(400).json({ message: 'User not found' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).send({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        req.session.user = { id: user._id , gmail: user.gmail };
+        const token = generateToken(user._id);
 
-        req.session.save((err) => {
-            if (err) {
-                return res.status(500).send({ message: 'Session error' });
-            }
-
-            return res.status(200).json({ message: 'Login successful' });
+        res.cookie('token', token , {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 24 * 60 * 60 * 1000,
+            path: '/',
         });
 
+        return res.status(200).json({ message: 'Login successful' });
+
     } catch (error) {
-        return res.status(500).send({ message: 'Server error' });
+        return res.status(500).json({ message: 'Server error' });
     }
 };
 

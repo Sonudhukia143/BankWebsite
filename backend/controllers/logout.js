@@ -1,8 +1,11 @@
 export default async function logout (req,res) {
-    req.session.destroy((err) => {
-        if(err) {
-            return res.status(500).send('Failed to log out');
-        }
-        res.send('Logged out successfully');
+    
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'None',
+        path:'/',
     });
+
+    res.status(200).json({ message: 'Logged out successfully' });
 };

@@ -18,7 +18,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder:'HandleHub',
-        allowedFormat: ['jpg','jpeg','png']
+        allowedFormats: ['jpg','jpeg','png']
     }
 });
 

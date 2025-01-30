@@ -1,7 +1,11 @@
+import { Button } from "react-bootstrap";
+
 export default function Logout () {
     return (
     <>
-    Logout
+    <Button id="profileButton">    
+            Logout
+    </Button>
     </>
     )
 }

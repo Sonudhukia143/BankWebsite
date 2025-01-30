@@ -1,57 +1,107 @@
-import '../../styles/login.css';
-import {  useState } from 'react';
-import { useAuth } from '../context/AuthProvider.jsx';
+import { useState } from 'react';
+import FlashMessage from '../helpercomponents/FlashMessage.jsx';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthProvider.jsx';
+import validateForm from '../utils/validateForm.js';
+import Loader from '../helpercomponents/Loader.jsx';
 
 export default function Login() {
-    const { login } = useAuth();
-    const [gmail, setGmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [message,setMessage] = useState("");
+    const { dispatch } = useAuthContext();
+    const [formData, setFormData] = useState({
+        gmail: " ",
+        password: " ",
+    });
+    const [message, setMessage] = useState("");
+    const [validation, setValidation] = useState({
+        gmail: true,
+        password: true,
+    })
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
+    function handleChange(e) {
+        const { id, value } = e.target;
+
+        setFormData({
+            ...formData,
+            [id]: value
+        });
+    }
 
     const loginUser = async (e) => {
         e.preventDefault();
+        setMessage("");
 
-        const response = await fetch('https://handle-hub.vercel.app/api/login', {
+        if (!validateForm(validation, formData, setValidation)) return;
+
+        setLoading(true);
+        try {
+
+            const response = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials:'include',
-                body: JSON.stringify({ gmail, password })
+                credentials: 'include',
+                body: JSON.stringify(formData)
             });
 
             const data = await response.json();
+            setLoading(false);
             setMessage(data.message);
-            
-            if (response.status === 200) {
-                window.location.href = '/';
 
-                const userData = { gmail , password};
-                login(userData);
+            if (response.status === 200 || response.ok) {
+                dispatch({ type: 'LOGIN', payload: data.token });
+                navigate('/');
             }
-    }
+        } catch (error) {
+            setMessage("Unexpected Error");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
-        <>
-            <div className="loginDiv">
-                <h1>Admin Login</h1>
-                {message}
-                <form className="loginForm" onSubmit={loginUser}>
-                    <span className="loginInput">
-                        <label htmlFor="gmail">Gmail</label>
-                        <input id="gmail" type="text" className="designForForm" required onChange={(e => setGmail(e.target.value))}/>
-                    </span>
-                    <span className="loginInput">
-                        <label htmlFor="password">Password</label>
-                        <input id="password" type="password" className="designForForm" required  onChange={(e => setPassword(e.target.value))}/>
+        <div className="loginDiv">
+            <h1>Login</h1>
+            {message && <FlashMessage message={message} />}
+            {loading && <Loader props={"Logging In"}/>}
+            <form className="row g-3 needs-validation loginForm" noValidate onSubmit={loginUser}>
+                <div className="col-md-6">
+                    <label htmlFor="gmail" className="form-label">Gmail</label>
+                    <input
+                        type="email"
+                        className={`form-control ${!formData.gmail ? 'is-invalid' : ''}`}
+                        id="gmail"
+                        required
+                        onChange={handleChange}
+                    />
+                    <div className="invalid-feedback">
+                        Please provide a valid email address.
+                    </div>
+                </div>
+                <div className="col-md-6">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <div className="input-group has-validation">
+                        <input
+                            type="password"
+                            className={`form-control ${!formData.password ? 'is-invalid' : ''}`}
+                            id="password"
+                            aria-describedby="inputGroupPrepend"
+                            required
+                            onChange={handleChange}
+                        />
+                        <div className="invalid-feedback">
+                            Password must be at least 6 characters long.
+                        </div>
+                    </div>
+                </div>
 
-                    </span>
-                    <span className="loginSpan">
-                        <button type="submit" id="loginButton">Login</button>
-                    </span>
-                </form>
-            </div>
-        </>
-    )
+                <div className="col-md-6">
+                    <button className="btn btn-primary col-3" type="submit">Login</button>
+                </div>
+                <p><Link to='/signup'>Not a user?</Link></p>
+            </form>
+        </div>
+    );
 }
