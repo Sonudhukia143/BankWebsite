@@ -12,7 +12,7 @@ export default function navbar() {
     async function logOut() {
 
         try {
-            const response = await fetch('https://bank-website-delta-gules.vercel.app/api/logout', {
+            const response = await fetch('https://bank-website-git-master-sonudhukia143s-projects.vercel.app/api/logout', {
                 method: 'POST',
                 credentials:'include',
             });

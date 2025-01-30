@@ -55,7 +55,7 @@ export default function SignUp() {
                 formDataToSend.append(key, formData[key]);
             }
 
-             const response = await fetch('https://bank-website-delta-gules.vercel.app/api/signin', {
+             const response = await fetch('https://bank-website-git-master-sonudhukia143s-projects.vercel.app/api/signin', {
                  method: 'POST',
                  credentials: 'include',
                  body: formDataToSend,
