@@ -12,7 +12,7 @@ export default function navbar() {
     async function logOut() {
 
         try {
-            const response = await fetch('https://handle-hub.vercel.app/api/logout', {
+            const response = await fetch('https://bank-website-895e1iz3u-sonudhukia143s-projects.vercel.app/api/logout', {
                 method: 'POST',
                 credentials:'include',
             });

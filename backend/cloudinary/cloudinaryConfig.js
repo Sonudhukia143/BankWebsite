@@ -17,7 +17,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder:'HandleHub',
+        folder:'BankWeb',
         allowedFormats: ['jpg','jpeg','png']
     }
 });

@@ -30,14 +30,14 @@ const connectDb = async () => {
 //connectDb();
 
 const app = express();
-const Port = 3000;
+//const Port = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(mongoSanitize());
 app.use(cookieParser());
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://mybankweb.netlify.app',
     optionsSuccessStatus: 200, 
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE']

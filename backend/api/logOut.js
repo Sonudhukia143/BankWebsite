@@ -6,4 +6,4 @@ const app = express();
 app.use(express.json());
 app.use('/', logout);
 
-export default app;s
+export default app;
