@@ -32,10 +32,7 @@ const connectDb = async () => {
 const app = express();
 //const Port = 3000;
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(mongoSanitize());
-app.use(cookieParser());
+
 const corsOptions = {
     origin: ['https://mybankweb.netlify.app', 'http://localhost:5173'],
     optionsSuccessStatus: 200, 
@@ -44,6 +41,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(mongoSanitize());
+app.use(cookieParser());
 
 const limiter = rateLimit({
     windowMs: 5 * 60 * 1000,
