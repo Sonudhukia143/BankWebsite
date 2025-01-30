@@ -37,10 +37,10 @@ app.use(express.json());
 app.use(mongoSanitize());
 app.use(cookieParser());
 const corsOptions = {
-    origin: 'https://mybankweb.netlify.app',
+    origin: ['https://mybankweb.netlify.app', 'http://localhost:5173'],
     optionsSuccessStatus: 200, 
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE']
+    methods: ['GET', 'POST', 'PUT', 'DELETE','OPTIONS'],
 };
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
@@ -54,7 +54,7 @@ const limiter = rateLimit({
 })
 
 app.use('/api/login',limiter , logInRouter);
-app.use('/api/logout' , limiter ,limiter,logout);
+app.use('/api/logout' , limiter ,logout);
 app.use('/api/signin' , limiter ,signUpRouter);
 app.use('/api/test', (req, res) => {
     res.send("Hello The Backend Is Working");
