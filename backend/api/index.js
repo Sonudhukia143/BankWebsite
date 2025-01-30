@@ -43,6 +43,7 @@ const corsOptions = {
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 };
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 const limiter = rateLimit({
     windowMs: 5 * 60 * 1000,
