@@ -55,7 +55,7 @@ export default function SignUp() {
                 formDataToSend.append(key, formData[key]);
             }
 
-             const response = await fetch('http://localhost:3000/api/signin', {
+             const response = await fetch('https://handle-hub.vercel.app/api/signin', {
                  method: 'POST',
                  credentials: 'include',
                  body: formDataToSend,

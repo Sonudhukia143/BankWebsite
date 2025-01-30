@@ -37,7 +37,7 @@ export default function Login() {
         setLoading(true);
         try {
 
-            const response = await fetch('http://localhost:3000/api/login', {
+            const response = await fetch('https://handle-hub.vercel.app/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
