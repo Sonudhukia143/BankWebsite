@@ -46,6 +46,16 @@ app.use(express.json());
 app.use(mongoSanitize());
 app.use(cookieParser());
 
+// ✅ Handle preflight requests explicitly
+app.options('*', (req, res) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin || '*');
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    return res.sendStatus(204);
+});
+
+
 const limiter = rateLimit({
     windowMs: 5 * 60 * 1000,
     max: 3,
@@ -54,10 +64,30 @@ const limiter = rateLimit({
     legacyHeaders: true
 })
 
-app.use('/api/login',limiter , logInRouter);
-app.use('/api/logout' , limiter ,logout);
-app.use('/api/signin' , limiter ,signUpRouter);
-app.use('/api/test', (req, res) => {
+app.use('/api/login',(req, res, next) => {
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204); // ✅ Let preflight requests pass
+    }
+    next();
+} ,limiter , logInRouter);
+app.use('/api/logout' , (req, res, next) => {
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204); // ✅ Let preflight requests pass
+    }
+    next();
+} ,limiter ,logout);
+app.use('/api/signin' , (req, res, next) => {
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204); // ✅ Let preflight requests pass
+    }
+    next();
+},limiter ,signUpRouter);
+app.use('/api/test', (req, res, next) => {
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204); // ✅ Let preflight requests pass
+    }
+    next();
+},(req, res) => {
     res.send("Hello The Backend Is Working");
 });
 
