@@ -14,14 +14,13 @@ if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
 
-
 const connectDb = async () => {
     if (mongoose.connection.readyState >= 1) {
         return;
     }
 
     try {
-        await mongoose.connect(process.env.MONGO_ATLAS_URL);
+        await mongoose.connect(process.env.MONGO_ATLAS_URL); //add ssl on deploying
         console.log("Connected to the database.");
     } catch (error) {
         console.log("Error in establishing connection with the database: " + error);
@@ -32,6 +31,7 @@ connectDb();
 const app = express();
 const Port = 3000;
 
+console.log("data here ");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(mongoSanitize());

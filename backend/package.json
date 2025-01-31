@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "busboy": "^1.6.0",
     "cloudinary": "^1.41.3",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
@@ -22,6 +23,7 @@
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^7.5.0",
     "express-session": "^1.18.1",
+    "formidable": "^3.5.2",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
@@ -33,5 +35,8 @@
     "node": "22.x"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@vercel/node": "^5.0.4"
+  }
 }

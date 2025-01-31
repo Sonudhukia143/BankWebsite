@@ -8,14 +8,14 @@ import Loader from '../helpercomponents/Loader.jsx';
 export default function Login() {
     const { dispatch } = useAuthContext();
     const [formData, setFormData] = useState({
-        gmail: " ",
-        password: " ",
+        gmail: "",
+        password: "",
     });
     const [message, setMessage] = useState("");
     const [validation, setValidation] = useState({
         gmail: true,
         password: true,
-    })
+    });
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
@@ -26,21 +26,31 @@ export default function Login() {
             ...formData,
             [id]: value
         });
+
+        // Update validation state immediately on change
+        setValidation({
+            ...validation,
+            [id]: value.trim() !== ''
+        });
     }
 
     const loginUser = async (e) => {
         e.preventDefault();
         setMessage("");
 
-        if (!validateForm(validation, formData, setValidation)) return;
+        // Validate form data
+        if (!validateForm(validation, formData, setValidation)) {
+            setMessage("Please fill in all required fields correctly.");
+            return;
+        }
 
         setLoading(true);
-        try {
 
-            const response = await fetch('https://bank-website-git-master-sonudhukia143s-projects.vercel.app/api/login', {
+        try {
+            const response = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 credentials: 'include',
                 body: JSON.stringify(formData)
@@ -71,9 +81,10 @@ export default function Login() {
                     <label htmlFor="gmail" className="form-label">Gmail</label>
                     <input
                         type="email"
-                        className={`form-control ${!formData.gmail ? 'is-invalid' : ''}`}
+                        className={`form-control ${!validation.gmail ? 'is-invalid' : ''}`}
                         id="gmail"
                         required
+                        value={formData.gmail}
                         onChange={handleChange}
                     />
                     <div className="invalid-feedback">
@@ -85,10 +96,11 @@ export default function Login() {
                     <div className="input-group has-validation">
                         <input
                             type="password"
-                            className={`form-control ${!formData.password ? 'is-invalid' : ''}`}
+                            className={`form-control ${!validation.password ? 'is-invalid' : ''}`}
                             id="password"
                             aria-describedby="inputGroupPrepend"
                             required
+                            value={formData.password}
                             onChange={handleChange}
                         />
                         <div className="invalid-feedback">
