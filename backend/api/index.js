@@ -12,6 +12,9 @@ if (process.env.NODE_ENV !== "production") {
 import logInRouter from '../routes/logInRoute.js';
 import logout from '../routes/logout.js';
 import signUpRouter from '../routes/signInRoute.js';
+import createBankAccount from '../routes/createBankAccount.js';
+import authMiddleware from '../middlewares/checkAuth.js';
+import getBankAccounts from '../routes/getBankAccount.js';
 
 const connectDb = async () => {
     if (mongoose.connection.readyState >= 1) {
@@ -47,6 +50,8 @@ app.use(cors(corsOptions));
 app.use('/api/login', logInRouter);
 app.use('/api/logout', logout);
 app.use('/api/signin' , signUpRouter);
+app.use('/api/createaccount', authMiddleware ,createBankAccount);
+app.use('/api/user', authMiddleware,getBankAccounts)
 app.get('/api/test', (req,res) => {
     res.send("Hello, The Backend Is Working");
 });

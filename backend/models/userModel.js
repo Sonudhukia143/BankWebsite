@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
     password: { 
         type: String, 
     },
+    isAdmin: {
+        type: Boolean,
+    }
 });
 
 const User = mongoose.model("User", userSchema);
@@ -37,7 +40,8 @@ const validateUser = (user) => {
         gmail: Joi.string().email().required(),
         password: Joi.string().min(6).required(),
         Bio:Joi.string().max(100).required(),
-        images:Joi.required()
+        images:Joi.required(),
+        isAdmin: Joi.boolean().required()
     });
     return schema.validate(user);
 };

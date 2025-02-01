@@ -48,6 +48,42 @@ export default function validateForm(validation, formData, setValidation) {
         if (!isimagesValid) isValid = false;
     }
 
+    if (newValidation.accountNumber !== undefined) {
+        const isAccountNumberValid = /^[0-9]{9,18}$/.test(formData.accountNumber);
+        if (newValidation.accountNumber !== isAccountNumberValid) {
+            newValidation.accountNumber = isAccountNumberValid;
+            hasChanges = true;
+        }
+        if (!isAccountNumberValid) isValid = false;
+    }
+
+    if (newValidation.IFSCCODE !== undefined) {
+        const isIFSCCODEValid = /^[A-Z]{4}[0-9]{7}$/.test(formData.IFSCCODE);
+        if (newValidation.IFSCCODE !== isIFSCCODEValid) {
+            newValidation.IFSCCODE = isIFSCCODEValid;
+            hasChanges = true;
+        }
+        if (!isIFSCCODEValid) isValid = false;
+    }
+
+    if (newValidation.branchName !== undefined) {
+        const isBranchNameValid = formData.branchName.trim() !== "";
+        if (newValidation.branchName !== isBranchNameValid) {
+            newValidation.branchName = isBranchNameValid;
+            hasChanges = true;
+        }
+        if (!isBranchNameValid) isValid = false;
+    }
+
+    if (newValidation.bankName !== undefined) {
+        const isBankNameValid = formData.bankName.trim() !== "";
+        if (newValidation.bankName !== isBankNameValid) {
+            newValidation.bankName = isBankNameValid;
+            hasChanges = true;
+        }
+        if (!isBankNameValid) isValid = false;
+    }
+
     if (hasChanges) {
         setValidation(newValidation);
     }

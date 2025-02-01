@@ -1,4 +1,4 @@
-import { createContext,useContext,useReducer } from "react";
+import { act, createContext,useContext,useReducer } from "react";
 
 const LOGIN = "LOGIN";
 const SIGNIN = "SIGNIN";
@@ -11,10 +11,13 @@ const initialState = {
 const authReducer = (state, action) => {
   switch (action.type) {
     case LOGIN:
-      return { ...state, isLoggedIn: true, token: action.payload };
+      localStorage.setItem('token',action.payload);
+      return { ...state, isLoggedIn: true, token: action.payload  };
     case LOGOUT:
+      localStorage.removeItem('token');
       return { ...state, isLoggedIn: false, token: null };
     case SIGNIN:
+      localStorage.setItem('token',action.payload);
       return { ...state, isLoggedIn: true, token: action.payload };
     default:
       return state;

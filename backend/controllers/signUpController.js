@@ -80,7 +80,7 @@ const signupuser = async (req, res) => {
                 path: '/',
             });
 
-            return res.status(200).json({ message: 'Signup successful' });
+            return res.status(200).json({ message: 'Signup successful',token:token });
         } catch (error) {
             console.error('Unexpected error:', error);
             return res.status(500).json({ message: 'Unexpected server error: ' + error.message });

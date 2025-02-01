@@ -13,6 +13,8 @@ import '../styles/footer.css';
 
 const SignUp = lazy(() => import('./routes/SignUp.jsx'));
 const Login = lazy(() => import('./routes/Login.jsx'));
+const BankAccount = lazy(() => import('./routes/BankAccount.jsx'));
+const UserPage = lazy(() => import('./routes/UserPage.jsx'));
 
 
 const router = createBrowserRouter(
@@ -34,6 +36,16 @@ const router = createBrowserRouter(
             <SignUp />
           </Suspense>
         } />
+        <Route path="/user" element={
+          <Suspense fallback={<Loader props={"Fetching"} />}>
+            <UserPage />
+          </Suspense>
+        } />
+          <Route path="/createaccount" element={
+            <Suspense fallback={<Loader props={"Fetching"} />}>
+              <BankAccount />
+            </Suspense>
+          } />
         <Route path="*" element={<UndefinedPath />} />
       </Route>
     </>
