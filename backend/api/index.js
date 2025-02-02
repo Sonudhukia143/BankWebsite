@@ -35,8 +35,7 @@ const connectDb = async () => {
 
 //const Port = 3000;
 const app = express();
-app.set('trust proxy', true);  
-
+app.set('trust proxy', true);
 app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
 app.use(cookieParser());

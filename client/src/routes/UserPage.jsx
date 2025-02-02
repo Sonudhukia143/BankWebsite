@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Card, Button, Modal, Form } from 'react-bootstrap';
 import Loader from '../helpercomponents/Loader';
 import FlashMessage from '../helpercomponents/FlashMessage';
-import validateForm from '../utils/validateForm';
 
 const BankAccounts = () => {
     const [accounts, setAccounts] = useState([]);
@@ -10,20 +9,6 @@ const BankAccounts = () => {
     const [message, setMessage] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentAccount, setCurrentAccount] = useState(null);
-    const [formData, setFormData] = useState({
-        accountNumber: "",
-        IFSCCODE: "",
-        branchName: "",
-        bankName: "",
-        accountHolderName: ""
-    });
-    const [validation, setValidation] = useState({
-        accountNumber: true,
-        IFSCCODE: true,
-        branchName: true,
-        bankName: true,
-        accountHolderName: true
-    });
     
     useEffect(() => {
         const fetchBankAccounts = async () => {
@@ -60,10 +45,6 @@ const BankAccounts = () => {
     const handleDelete = async (accountId) => {
         try {
             setLoading(true);
-            if (!validateForm(validation, formData, setValidation)) {
-                setMessage("Please fill in all required fields correctly.");
-                return;
-            }
 
             const response = await fetch(`https://bank-website-delta-gules.vercel.app/api/deleteaccount/${accountId}`, {
                 method: 'DELETE',
@@ -186,7 +167,6 @@ const BankAccounts = () => {
                                     value={currentAccount.bankName}
                                     onChange={handleInputChange}
                                     required
-                                    className={`form-control ${!validation.bankName ? 'is-invalid' : ''}`}
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBranchName">
@@ -197,7 +177,6 @@ const BankAccounts = () => {
                                     value={currentAccount.branchName}
                                     onChange={handleInputChange}
                                     required
-                                    className={`form-control ${!validation.branchName ? 'is-invalid' : ''}`}
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formAccountHolderName">
@@ -209,7 +188,6 @@ const BankAccounts = () => {
                                     onChange={handleInputChange}
                                     readOnly
                                     required
-                                    className={`form-control ${!validation.accountHolderName ? 'is-invalid' : ''}`}
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formAccountNumber">
@@ -221,7 +199,6 @@ const BankAccounts = () => {
                                     onChange={handleInputChange}
                                     readOnly
                                     required
-                                    className={`form-control ${!validation.accountNumber ? 'is-invalid' : ''}`}
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formIFSCCODE">
@@ -232,7 +209,6 @@ const BankAccounts = () => {
                                     value={currentAccount.IFSCCODE}
                                     onChange={handleInputChange}
                                     required
-                                    className={`form-control ${!validation.IFSCCODE ? 'is-invalid' : ''}`}
                                 />
                             </Form.Group>
                         </Form>
