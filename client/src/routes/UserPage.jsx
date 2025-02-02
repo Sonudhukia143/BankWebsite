@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Spinner } from 'react-bootstrap';
+import { Card, Button, Modal, Form } from 'react-bootstrap';
 import Loader from '../helpercomponents/Loader';
 import FlashMessage from '../helpercomponents/FlashMessage';
+import validateForm from '../utils/validateForm';
 
 const BankAccounts = () => {
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
+    const [message, setMessage] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [currentAccount, setCurrentAccount] = useState(null);
+    const [formData, setFormData] = useState({
+        accountNumber: "",
+        IFSCCODE: "",
+        branchName: "",
+        bankName: "",
+        accountHolderName: ""
+    });
+    const [validation, setValidation] = useState({
+        accountNumber: true,
+        IFSCCODE: true,
+        branchName: true,
+        bankName: true,
+        accountHolderName: true
+    });
+    
     useEffect(() => {
-        // Fetch bank accounts data
         const fetchBankAccounts = async () => {
             try {
                 const response = await fetch('https://bank-website-delta-gules.vercel.app/api/user', {
@@ -26,7 +42,7 @@ const BankAccounts = () => {
                 const data = await response.json();
                 setAccounts(data.accounts);
             } catch (error) {
-                setError(error.message);
+                setMessage(error.message);
             } finally {
                 setLoading(false);
             }
@@ -36,33 +52,81 @@ const BankAccounts = () => {
     }, []);
 
     const handleEdit = (accountId) => {
-        // Redirect to the edit page (you can create an edit component for this)
-        console.log(`Edit account with ID: ${accountId}`);
+        const account = accounts.find(acc => acc._id === accountId);
+        setCurrentAccount(account);
+        setShowEditModal(true);
     };
 
     const handleDelete = async (accountId) => {
         try {
-            const response = await fetch(`http://localhost:3000/deleteaccount/${accountId}`, {
+            setLoading(true);
+            if (!validateForm(validation, formData, setValidation)) {
+                setMessage("Please fill in all required fields correctly.");
+                return;
+            }
+
+            const response = await fetch(`https://bank-website-delta-gules.vercel.app/api/deleteaccount/${accountId}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `${localStorage.getItem('token')}`,
                 }
             });
 
+            const data = await response.json();
             if (response.ok) {
-                setAccounts(accounts.filter(account => account._id !== accountId));
+                setMessage(data.message);
+                setAccounts(accounts.filter(acc => acc._id !== accountId)); // Remove the deleted account from state
             } else {
-                throw new Error('Failed to delete account');
+                setMessage(data.message);
             }
         } catch (error) {
-            setError(error.message);
+            setMessage(error.message);
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const handleEditSubmit = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`https://bank-website-delta-gules.vercel.app/api/editaccount/${currentAccount._id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify(currentAccount)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setMessage(data.message);
+                setAccounts(accounts.map(acc => acc._id === currentAccount._id ? data.account : acc));
+                setShowEditModal(false);
+            } else {
+                setMessage(data.message);
+                setShowEditModal(false);
+            }
+        } catch (error) {
+            setMessage(error.message ? error.message : data.message);
+            setLoading(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setCurrentAccount(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     };
 
     return (
         <div className="container mt-5">
-            {error && <FlashMessage message={error} />}
-            {loading?<Loader props={"Fetching Bank Details"}/>:""}
+            {message && <FlashMessage message={message} />}
+            {loading && <Loader props={"Fetching Bank Details"} />}
             <h1>My Bank Accounts</h1>
             <div className="row">
                 {accounts.length === 0 ? (
@@ -86,15 +150,15 @@ const BankAccounts = () => {
                                     <Card.Text>
                                         Account Holder: {account.accountHolderName}
                                     </Card.Text>
-                                    <Button 
-                                        variant="primary" 
+                                    <Button
+                                        variant="primary"
                                         className="me-2"
                                         onClick={() => handleEdit(account._id)}
                                     >
                                         Edit
                                     </Button>
-                                    <Button 
-                                        variant="danger" 
+                                    <Button
+                                        variant="danger"
                                         onClick={() => handleDelete(account._id)}
                                     >
                                         Delete
@@ -105,6 +169,84 @@ const BankAccounts = () => {
                     ))
                 )}
             </div>
+
+            {/* Edit Account Modal */}
+            <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Bank Account</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {currentAccount && (
+                        <Form>
+                            <Form.Group className="mb-3" controlId="formBankName">
+                                <Form.Label>Bank Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="bankName"
+                                    value={currentAccount.bankName}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`form-control ${!validation.bankName ? 'is-invalid' : ''}`}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formBranchName">
+                                <Form.Label>Branch Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="branchName"
+                                    value={currentAccount.branchName}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`form-control ${!validation.branchName ? 'is-invalid' : ''}`}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formAccountHolderName">
+                                <Form.Label>Account Holder Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="accountHolderName"
+                                    value={currentAccount.accountHolderName}
+                                    onChange={handleInputChange}
+                                    readOnly
+                                    required
+                                    className={`form-control ${!validation.accountHolderName ? 'is-invalid' : ''}`}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formAccountNumber">
+                                <Form.Label>Account Number</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="accountNumber"
+                                    value={currentAccount.accountNumber}
+                                    onChange={handleInputChange}
+                                    readOnly
+                                    required
+                                    className={`form-control ${!validation.accountNumber ? 'is-invalid' : ''}`}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formIFSCCODE">
+                                <Form.Label>IFSCCODE</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="IFSCCODE"
+                                    value={currentAccount.IFSCCODE}
+                                    onChange={handleInputChange}
+                                    required
+                                    className={`form-control ${!validation.IFSCCODE ? 'is-invalid' : ''}`}
+                                />
+                            </Form.Group>
+                        </Form>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={handleEditSubmit}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };

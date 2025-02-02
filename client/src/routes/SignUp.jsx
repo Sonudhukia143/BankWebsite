@@ -66,7 +66,7 @@ export default function SignUp() {
 
             if (response.status === 200 || response.ok) {
                 navigate('/');
-                dispatch({ type: 'SIGNIN', payload: data.token });
+                dispatch({ type: 'SIGNIN', payload: data });
             }
         } catch (error) {
             setMessage("Unexpected Error");
@@ -159,7 +159,7 @@ export default function SignUp() {
                 <div className="col-md-6">
                     <button className="btn btn-primary col-3" type="submit">Sign Up</button>
                 </div>
-                <p><Link to='/login'>Already a user?</Link></p>
+                <p className="col-md-6"><Link to='/login'>Already a user?</Link></p>
 
             </form>
         </div>

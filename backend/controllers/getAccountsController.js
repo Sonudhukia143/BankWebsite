@@ -3,7 +3,6 @@ import { BankAccount } from "../models/bankAccount.js";
 export default async function getUserBankAccounts (req, res) {
     try {
         const user = req.user;
-        console.log(user + "user is");
 
         if(!user) res.status(404).json({message:"User not provided"});
 

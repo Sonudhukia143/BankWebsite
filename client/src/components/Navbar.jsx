@@ -1,20 +1,24 @@
 import { Link } from 'react-router-dom';
 import '../../styles/navbar.css';
-import Logout from '../routes/Logout';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthProvider';
-import Profile from '../helpercomponents/ProfilePopOver';
+import { useState } from 'react';
+import Loader from '../helpercomponents/Loader';
+import LoggedInRoutes from '../helpercomponents/LoggedInRoute.jsx';
+import LoggedOutRoute from '../helpercomponents/LoggedOutRoutes.jsx';
 
 export default function navbar() {
     const navigate = useNavigate();
-    const {state,dispatch} = useAuthContext();
+    const { state, dispatch } = useAuthContext();
+    const [loading, setLoading] = useState();
 
     async function logOut() {
 
         try {
-            const response = await fetch('http://localhost:3000/api/logout', {
+            setLoading(true)
+            const response = await fetch('https://bank-website-delta-gules.vercel.app/api/logout', {
                 method: 'POST',
-                credentials:'include',
+                credentials: 'include',
             });
 
             const data = await response.json();
@@ -22,8 +26,9 @@ export default function navbar() {
             navigate('/');
 
             if (response.ok) {
+                setLoading(false)
                 navigate('/');
-                dispatch({type: 'LOGOUT', payload: null});
+                dispatch({ type: 'LOGOUT', payload: null });
 
             } else {
                 console.error('Failed to log out', data);
@@ -36,11 +41,12 @@ export default function navbar() {
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-dark navbar-dark" id="navbar">
-                <div className="container-fluid">
-                    <span className="navbar-brand">
+                {loading && <Loader props={"Safely Logging Out"} />}
+                <div className="container-fluid" id="container-fluid">
+                    <span className="navbar-brand" id="navbar-brand">
                         <Link to="/" alt="navlogo" id="navbar">
-                            Handle
-                            <b style={{ color: "grey" , display:"block" }}>Hub</b>
+                            <p style={{ color: "grey", padding: "0px", margin: "0px" }}>Handle</p>
+                            <b style={{ color: "black", display: "block" }}>Hub</b>
                         </Link>
                     </span>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,38 +54,11 @@ export default function navbar() {
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-
-                        {
+                  {
                             state.isLoggedIn ?
-                                <ul id="navbar-nav" className="navbar-nav ms-auto mb-2 mb-lg-0">
-                                    <li className="nav-item">
-                                        <Link to="/" className="nav-link active" id="navbar" aria-current="page" onClick={logOut}>
-                                            <Logout />
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link active" id="navbar" aria-current="page" >
-                                            <Profile />
-                                        </Link>
-                                    </li>
-                                    <li className="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <Link to="/user" className="nav-link active"  id="navbar" aria-current="page">
-                                            User
-                                        </Link>
-                                    </li>
-                                    <li className="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <Link to="/createaccount" className="nav-link active"  id="navbar" aria-current="page">Create Account</Link>
-                                    </li>
-                                </ul>
-                            :   
-                                <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                                    <li className="nav-item">
-                                        <Link to="/login" className="nav-link active"  id="navbar" aria-current="page">Login</Link>
-                                    </li>
-                                    <li className="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <Link to="/signup" className="nav-link active"  id="navbar" aria-current="page">SignUp</Link>
-                                    </li>
-                                </ul>
+                            <LoggedInRoutes props={logOut}/>    
+                            : 
+                            <LoggedOutRoute />
                         }
                     </div>
                 </div>

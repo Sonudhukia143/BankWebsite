@@ -66,6 +66,13 @@ const signupuser = async (req, res) => {
                 Bio:user.Bio,
             });
 
+            const newUser2 = {
+                username:newUser.username,
+                Bio:newUser.Bio,
+                gmail:newUser.gmail,
+                images:newUser.images
+            }
+
             await newUser.save();
 
             // Generate token
@@ -80,7 +87,7 @@ const signupuser = async (req, res) => {
                 path: '/',
             });
 
-            return res.status(200).json({ message: 'Signup successful',token:token });
+            return res.status(200).json({ message: 'Signup successful',token:token,user:newUser2 });
         } catch (error) {
             console.error('Unexpected error:', error);
             return res.status(500).json({ message: 'Unexpected server error: ' + error.message });

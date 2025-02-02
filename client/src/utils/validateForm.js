@@ -84,6 +84,15 @@ export default function validateForm(validation, formData, setValidation) {
         if (!isBankNameValid) isValid = false;
     }
 
+    if (newValidation.accountHolderName !== undefined) {
+        const isAccountHolderValid = formData.accountHolderName.trim() !== "";
+        if (newValidation.accountHolderName !== isAccountHolderValid) {
+            newValidation.accountHolderName = isAccountHolderValid;
+            hasChanges = true;
+        }
+        if (!isAccountHolderValid) isValid = false;
+    }
+
     if (hasChanges) {
         setValidation(newValidation);
     }

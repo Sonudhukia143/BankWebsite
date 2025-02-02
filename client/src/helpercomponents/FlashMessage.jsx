@@ -19,7 +19,7 @@ export default function FlashMessage({message}) {
                 className={`alert alert-warning alert-dismissible fade show ${visibility?'alert-visible':'alert-hidden'}`}
                 role="alert"
                 >
-                    <strong>{message}</strong> Check Again.
+                    <strong>{message}</strong> 
             </div>
         </>
     )

@@ -7,5 +7,5 @@ export default async function logout (req,res) {
         path:'/',
     });
 
-    res.status(200).json({ message: 'Logged out successfully' });
+    return res.status(200).json({ message: 'Logged out successfully' });
 };

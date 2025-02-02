@@ -1,0 +1,112 @@
+.background{
+    width: 50%;
+    height: 80vh;
+    background-image: url('../public//static/bankhome.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.maindiv{
+    width: 100%;
+    padding: 0%;
+    margin: 0%;
+    display: flex;
+}
+
+@keyframes coloringeffect {
+    0% {
+        color: white;
+        background-color: black;
+        width: 10%;
+    }
+    20%{
+        color: white;
+        background-color: black;
+        width: 20%;
+    }
+    30%{        
+        color: white;
+        background-color: black;
+        width: 30%;
+    }    
+    40%{
+        color: white;
+        background-color: black;
+        width: 40%;
+    }    
+    50%{
+        color: white;
+       background-color: black;
+       width: 50%;
+    }    
+    60%{
+        color: white;
+        background-color: black;
+        width: 60%;
+    }    
+    70%{
+        color: white;
+        background-color: black;
+        width: 70%;
+    }    
+    80%{
+        color: white;
+        background-color: black;
+        width: 80%;
+    }    
+    90%{
+        color: white;
+        background-color: black;
+        width: 90%;
+    }
+    100% {
+        color: white;
+        width: 100%;
+        background-color: transparent;    
+    }
+}
+
+.text{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2em;
+}
+
+.text h2{
+    color: black;
+    animation: coloringeffect 1s ease-in 1;
+}
+.text h1{
+    color: black;
+    animation: coloringeffect 1s ease-in 1;
+}.text p{
+    color: black;
+    animation: coloringeffect 1s ease-in 1;
+}
+
+@keyframes scroll {
+    0%{
+        top: 15%;
+        opacity: 1;
+    }100% {
+        top: 150%;
+        opacity: 0; 
+    }
+}
+
+.scroll{
+    opacity: 0;
+    background-color: blue;
+    color: aliceblue;
+    position: absolute;
+    left: 45%;
+    padding: 1em;
+    animation: scroll 3s ease-in 1;
+}

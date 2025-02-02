@@ -1,4 +1,4 @@
-import { act, createContext,useContext,useReducer } from "react";
+import {  createContext,useContext,useReducer } from "react";
 
 const LOGIN = "LOGIN";
 const SIGNIN = "SIGNIN";
@@ -11,14 +11,23 @@ const initialState = {
 const authReducer = (state, action) => {
   switch (action.type) {
     case LOGIN:
-      localStorage.setItem('token',action.payload);
-      return { ...state, isLoggedIn: true, token: action.payload  };
+      localStorage.setItem('username',action.payload.user.username);
+      localStorage.setItem('Bio',action.payload.user.Bio);
+      localStorage.setItem('gmail',action.payload.user.gmail);
+      localStorage.setItem('images',JSON.stringify(action.payload.user.images[0]));
+      localStorage.setItem('token',action.payload.token);
+      return { ...state, isLoggedIn: true, token: action.payload.token  };
     case LOGOUT:
       localStorage.removeItem('token');
+      localStorage.clear();
       return { ...state, isLoggedIn: false, token: null };
     case SIGNIN:
-      localStorage.setItem('token',action.payload);
-      return { ...state, isLoggedIn: true, token: action.payload };
+      localStorage.setItem('username',action.payload.user.username);
+      localStorage.setItem('Bio',action.payload.user.Bio);
+      localStorage.setItem('gmail',action.payload.user.gmail);
+      localStorage.setItem('images',JSON.stringify(action.payload.user.images[0]));
+      localStorage.setItem('token',action.payload.token);
+      return { ...state, isLoggedIn: true, token: action.payload.token };
     default:
       return state;
   }

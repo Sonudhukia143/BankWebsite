@@ -3,7 +3,7 @@ import { Offcanvas, Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function ProfilePopOver() {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const changeVisibility = () => {
     setVisible(!visible);
@@ -20,8 +20,12 @@ export default function ProfilePopOver() {
           <Offcanvas.Title>User Profile</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <p>Name: John Doe</p>
-          <p>Email: john.doe@example.com</p>
+          <span className="profileImageSpan">
+            {localStorage.getItem('images')?<img src={(JSON.parse(localStorage.getItem('images'))).url} className="rounded-circle img-fluid" alt="Profile Image" />:""}
+          </span>
+          <p>Name: {localStorage.getItem('username')}</p>
+          <p>Email: {localStorage.getItem('gmail')}</p>
+          <p>Bio: {localStorage.getItem('Bio')}</p>
         </Offcanvas.Body>
       </Offcanvas>
     </>

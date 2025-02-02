@@ -10,12 +10,13 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/login.css';
 import '../styles/footer.css';
+import '../styles/userpage.css';
 
 const SignUp = lazy(() => import('./routes/SignUp.jsx'));
 const Login = lazy(() => import('./routes/Login.jsx'));
 const BankAccount = lazy(() => import('./routes/BankAccount.jsx'));
 const UserPage = lazy(() => import('./routes/UserPage.jsx'));
-
+const AdminPage = lazy(() => import('./routes/AdminPage.jsx'));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,11 +42,16 @@ const router = createBrowserRouter(
             <UserPage />
           </Suspense>
         } />
-          <Route path="/createaccount" element={
-            <Suspense fallback={<Loader props={"Fetching"} />}>
-              <BankAccount />
-            </Suspense>
-          } />
+        <Route path="/createaccount" element={
+          <Suspense fallback={<Loader props={"Fetching"} />}>
+            <BankAccount />
+          </Suspense>
+        } />
+        <Route path="/admin" element={
+          <Suspense fallback={<Loader props={"Fetching"} />}>
+            <AdminPage />
+          </Suspense>
+        } />
         <Route path="*" element={<UndefinedPath />} />
       </Route>
     </>

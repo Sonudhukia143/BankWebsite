@@ -27,7 +27,14 @@ const loginUser = async (req, res) => {
             path: '/',
         });
 
-        return res.status(200).json({ message: 'Login successful' , token:token});
+        const newUser = {
+            username:user.username,
+            Bio:user.Bio,
+            gmail:user.gmail,
+            images:user.images
+        }
+
+        return res.status(200).json({ message: 'Login successful' , token:token , user:newUser});
 
     } catch (error) {
         return res.status(500).json({ message: 'Server error' });

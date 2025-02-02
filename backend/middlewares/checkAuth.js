@@ -3,7 +3,6 @@ import { User } from "../models/userModel.js";
 
 const authMiddleware = async (req, res, next) => {
     const token = req.header("Authorization");
-    console.log(token);
 
     if (!token) {
         return res.status(401).json({ message: "No token, authorization denied" });
@@ -17,7 +16,6 @@ const authMiddleware = async (req, res, next) => {
 
         req.user = user._id;
         req.accountHolderName = user.username;
-        console.log(req.user);
         next();
     } catch (err) {
         res.status(401).json({ message: "Token is not valid" });

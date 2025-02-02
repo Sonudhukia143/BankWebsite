@@ -61,7 +61,7 @@ export default function Login() {
             setMessage(data.message);
 
             if (response.status === 200 || response.ok) {
-                dispatch({ type: 'LOGIN', payload: data.token });
+                dispatch({ type: 'LOGIN', payload: data });
                 navigate('/');
             }
         } catch (error) {
@@ -112,7 +112,7 @@ export default function Login() {
                 <div className="col-md-6">
                     <button className="btn btn-primary col-3" type="submit">Login</button>
                 </div>
-                <p><Link to='/signup'>Not a user?</Link></p>
+                <p className="col-md-6"><Link to='/signup'>Not a user?</Link></p>
             </form>
         </div>
     );

@@ -45,7 +45,6 @@ export default function BankAccountCreation() {
         }
 
         setLoading(true);
-        console.log(localStorage.getItem('token'));
 
         try {
             const response = await fetch('https://bank-website-delta-gules.vercel.app/api/createaccount', {
@@ -137,7 +136,7 @@ export default function BankAccountCreation() {
                 <div className="col-md-6">
                     <button className="btn btn-primary col-3" type="submit">Create Account</button>
                 </div>
-                <p><Link to='/user'>Back to User Page</Link></p>
+                <p className="col-md-6"><Link to='/user'>Back to User Page</Link></p>
             </form>
         </div>
     );

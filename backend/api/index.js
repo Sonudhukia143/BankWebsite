@@ -15,6 +15,9 @@ import signUpRouter from '../routes/signInRoute.js';
 import createBankAccount from '../routes/createBankAccount.js';
 import authMiddleware from '../middlewares/checkAuth.js';
 import getBankAccounts from '../routes/getBankAccount.js';
+import deleteAccountRouter from '../routes/deleteBankAccountRouter.js';
+import editBankAccount from '../routes/editBankRoute.js';
+import adminsRoute from '../routes/adminRoute.js';
 
 const connectDb = async () => {
     if (mongoose.connection.readyState >= 1) {
@@ -39,9 +42,9 @@ app.use(mongoSanitize());
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: 'https://mybankweb.netlify.app',   
+    origin: ['https://mybankweb.netlify.app','http://localhost:5173'],   
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
     optionsSuccessStatus: 200,
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
@@ -51,7 +54,10 @@ app.use('/api/login', logInRouter);
 app.use('/api/logout', logout);
 app.use('/api/signin' , signUpRouter);
 app.use('/api/createaccount', authMiddleware ,createBankAccount);
-app.use('/api/user', authMiddleware,getBankAccounts)
+app.use('/api/user', authMiddleware,getBankAccounts);
+app.use('/api/deleteaccount',authMiddleware,deleteAccountRouter);
+app.use('/api/editaccount',authMiddleware,editBankAccount);
+app.use('/api/admin',authMiddleware ,adminsRoute);
 app.get('/api/test', (req,res) => {
     res.send("Hello, The Backend Is Working");
 });

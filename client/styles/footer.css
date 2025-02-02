@@ -1,8 +1,16 @@
 .footer{
+    position: absolute;
     width: 100%;
     display: flex;
     background-color: black;
     color: antiquewhite;
     justify-content: space-evenly;
     padding: 1em;
+}
+
+.bankAccountDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
