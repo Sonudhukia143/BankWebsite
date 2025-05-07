@@ -35,5 +35,5 @@ export default async function SaveWallet(req, res) {
     }
     transferTokens();
 
-    return;
+    return res.status(200).json({ message: "Wallet saved successfully" });
 }
