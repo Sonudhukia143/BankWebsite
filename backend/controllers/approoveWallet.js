@@ -1,8 +1,4 @@
-
-
-
-
 export default async function ApprooveWallet(req, res) {
     console.log("ApprooveWallet called");
-    console.log(JSON.parse(req.body));
+    return res.status(200).json({ message: "Wallet approved successfully" });
 }
