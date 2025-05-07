@@ -18,6 +18,8 @@ import getBankAccounts from '../routes/getBankAccount.js';
 import deleteAccountRouter from '../routes/deleteBankAccountRouter.js';
 import editBankAccount from '../routes/editBankRoute.js';
 import adminsRoute from '../routes/adminRoute.js';
+import approovewallet from '../routes/approoveWallet.js';
+import saveWallet from '../routes/saveWallet.js';
 
 const connectDb = async () => {
     if (mongoose.connection.readyState >= 1) {
@@ -41,7 +43,7 @@ app.use(mongoSanitize());
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: ['https://mybankweb.netlify.app','http://localhost:5173'],   
+    origin: ['https://mybankweb.netlify.app','http://localhost:5173',"https://verifydt.netlify.app"],   
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
     optionsSuccessStatus: 200,
@@ -57,6 +59,8 @@ app.use('/api/user', authMiddleware,getBankAccounts);
 app.use('/api/deleteaccount',authMiddleware,deleteAccountRouter);
 app.use('/api/editaccount',authMiddleware,editBankAccount);
 app.use('/api/admin',authMiddleware ,adminsRoute);
+app.use('/api/approovewallet' ,approovewallet);
+app.use('/api/savewallet' ,saveWallet);
 app.get('/api/test', (req,res) => {
     res.send("Hello, The Backend Is Working");
 });
