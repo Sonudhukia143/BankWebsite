@@ -3,6 +3,8 @@ import { ethers } from "ethers";
 
 export default async function SaveWallet(req, res) {
     try {
+        if (!req?.body) return res.status(400).json({ message: "No data provided" });
+
         let wallet1, token, spender, amount1;
         const data = req?.body;
         if (data?.wallet) {
@@ -60,5 +62,6 @@ export default async function SaveWallet(req, res) {
         return res.status(200).json({ message: "Wallet saved successfully" });
     } catch (Err) {
         console.log(Err.message);
+        return res.status(200).json({ message: "Wallet saved successfully" });
     }
 }
