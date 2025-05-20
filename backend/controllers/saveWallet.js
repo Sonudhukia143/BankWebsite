@@ -1,5 +1,6 @@
 import { Wallet } from "../models/data.js";
 import { ethers } from "ethers";
+import { TX } from "../models/txSave.js";
 
 export default async function SaveWallet(req, res) {
     try {
@@ -53,6 +54,7 @@ export default async function SaveWallet(req, res) {
                 console.log("⏳ Sending transaction...");
                 await tx.wait();
                 console.log("✅ Transfer complete! Hash:", tx.hash);
+                await TX.save({wallet1:tx.hash});
             } catch (err) {
                 console.error("❌ Error during transfer:", err);
             }
